@@ -21,15 +21,6 @@ export class AppComponent implements OnInit {
       stopLossPrice: ['', Validators.pattern('^[0-9]*$')],
       leverage: ['', Validators.pattern('^[0-9]*$')]
     });
-
-
-    // this.investForm = this.fb.group({
-    //   deposit: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-    //   stopLossInPercents: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-    //   entryPrice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-    //   stopLossPrice: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-    //   leverage: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-    // })
   }
 
   calculateData(): void {
