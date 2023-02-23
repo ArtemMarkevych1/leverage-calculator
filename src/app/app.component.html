@@ -1,1 +1,58 @@
-Start
+<form [formGroup]="investForm" (ngSubmit)="onSubmit()">
+  <fieldset>
+    <fieldset class="form-group">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="Deposit"
+        formControlName="deposit"
+      />
+      <label>Deposit</label>
+    </fieldset>
+    <fieldset class="form-group">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="Stoploss in percents"
+        formControlName="stopLossInPercents"
+      />
+      <label>Stoploss in percents</label>
+    </fieldset>
+    <fieldset class="form-group">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="Entry price"
+        formControlName="entryPrice"
+      />
+      <label>Entry price</label>
+    </fieldset>
+    <fieldset class="form-group">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="Stoploss price"
+        formControlName="stopLossPrice"
+      />
+      <label>Stoploss price</label>
+    </fieldset>
+    <fieldset class="form-group">
+      <input
+        type="text"
+        class="form-control form-control-lg"
+        placeholder="Leverage"
+        formControlName="leverage"
+      />
+      <label>Leverage</label>
+    </fieldset>
+    <button
+      class="btn btn-lg btn-primary pull-xs-right"
+      type="submit"
+      [disabled]="!investForm"
+    >
+      Calculate
+    </button>
+  </fieldset>
+</form>
+
+<p>Result: {{moneyInDeal}}</p>
