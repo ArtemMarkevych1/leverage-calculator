@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AppService} from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -10,28 +11,36 @@ export class AppComponent implements OnInit {
   investForm!: FormGroup;
   moneyInDeal: number = 0;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private appService: AppService) {
+  }
+
+  ngOnInit(): void {
+    this.initializeForm();
   }
 
   initializeForm(): void {
+
+    const pattern = /[0-9]+([,.][0-9]{1,2})?/;
+
     this.investForm = this.fb.group({
-      deposit: ['', Validators.pattern('^[0-9]*$')],
-      stopLossInPercents: ['', Validators.pattern('^[0-9]*$')],
-      entryPrice: ['', Validators.pattern('^[0-9]*$')],
-      stopLossPrice: ['', Validators.pattern('^[0-9]*$')],
-      leverage: ['', Validators.pattern('^[0-9]*$')]
+      deposit: ['', Validators.pattern(pattern)],
+      stopLossInPercents: ['', Validators.pattern(pattern)],
+      entryPrice: ['', Validators.pattern(pattern)],
+      stopLossPrice: ['', Validators.pattern(pattern)],
+      leverage: ['', Validators.pattern(pattern)]
     });
   }
 
   calculateData(): void {
-    const priceMovement = Number(this.investForm.value.entryPrice) > Number(this.investForm.value.stopLossPrice)
-      ? Number(((1 - (Number(this.investForm.value.stopLossPrice) / Number(this.investForm.value.entryPrice))) * 100).toFixed(2)) // long
-      : Number((((Number(this.investForm.value.stopLossPrice) / Number(this.investForm.value.entryPrice)) - 1) * 100).toFixed(2)); // short
+    const priceMovement = this.investForm.value.entryPrice > this.investForm.value.stopLossPrice
+      ? (1 - this.investForm.value.stopLossPrice / this.investForm.value.entryPrice) * 100 // long position
+      : ((this.investForm.value.stopLossPrice / this.investForm.value.entryPrice) - 1) * 100; // short position
 
-    this.moneyInDeal =
-      Number((Number(this.investForm.value.deposit)
-        * Number(this.investForm.value.stopLossInPercents) / 100
-        * (100 / (priceMovement * Number(this.investForm.value.leverage)))).toFixed(2));
+    this.moneyInDeal = this.appService.roundNumber(
+      this.investForm.value.deposit
+      * this.investForm.value.stopLossInPercents / 100
+      * (100 / (priceMovement * this.investForm.value.leverage))
+    );
   }
 
   onSubmit(): void {
@@ -39,11 +48,14 @@ export class AppComponent implements OnInit {
   }
 
   hasEmptyFields(): boolean {
-    return Object.values(this.investForm.value).some(value => value === '');
+    return this.appService.hasEmptyFields(this.investForm.value);
   }
 
-  ngOnInit(): void {
-    this.initializeForm();
+  isNaNValue(number: number): number {
+    return this.appService.isNaNValue(number);
   }
 
+  resetForm() {
+    this.investForm.reset();
+  }
 }

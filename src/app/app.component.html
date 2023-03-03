@@ -1,84 +1,88 @@
-  <div class="container page mt-3">
-    <p class="text-dark font-weight-bold col-md-4" >Result: {{moneyInDeal}}</p>
-    <form [formGroup]="investForm" (ngSubmit)="onSubmit()">
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="deposit">Deposit</label>
-            <input type="text"
-                   class="form-control"
-                   id="deposit"
-                   placeholder="Deposit"
-                   formControlName="deposit"
-            >
-            <div
-              *ngIf="investForm.controls['deposit'].invalid && (investForm.controls['deposit'].dirty || investForm.controls['deposit'].touched)"
-              class="text-danger">
-              Only numbers are allowed.
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="stopLossInPercents">Stoploss in percents</label>
-            <input type="text"
-                   class="form-control"
-                   id="stopLossInPercents"
-                   placeholder="Stoploss in percents"
-                   formControlName="stopLossInPercents"
-            >
-            <div
-              *ngIf="investForm.controls['stopLossInPercents'].invalid && (investForm.controls['stopLossInPercents'].dirty || investForm.controls['stopLossInPercents'].touched)"
-              class="text-danger">
-              Only numbers are allowed.
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="entryPrice">Entry price</label>
-            <input type="text"
-                   class="form-control"
-                   id="entryPrice"
-                   placeholder="Entry price"
-                   formControlName="entryPrice"
-            >
-            <div
-              *ngIf="investForm.controls['entryPrice'].invalid && (investForm.controls['entryPrice'].dirty || investForm.controls['entryPrice'].touched)"
-              class="text-danger">
-              Only numbers are allowed.
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="stopLossPrice">Stoploss price</label>
-            <input type="text"
-                   class="form-control"
-                   id="stopLossPrice"
-                   placeholder="Stoploss price"
-                   formControlName="stopLossPrice"
-            >
-            <div
-              *ngIf="investForm.controls['stopLossPrice'].invalid && (investForm.controls['stopLossPrice'].dirty || investForm.controls['stopLossPrice'].touched)"
-              class="text-danger">
-              Only numbers are allowed.
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="leverage">Leverage</label>
-            <input type="text"
-                   class="form-control"
-                   id="leverage"
-                   placeholder="Leverage"
-                   formControlName="leverage"
-            >
-            <div
-              *ngIf="investForm.controls['leverage'].invalid && (investForm.controls['leverage'].dirty || investForm.controls['leverage'].touched)"
-              class="text-danger">
-              Only numbers are allowed.
-            </div>
-          </div>
-          <button
-            class="btn btn-lg btn-primary pull-xs-right mt-3 w-100"
-            type="submit"
-            [disabled]="investForm.invalid || investForm.pending || hasEmptyFields()"
-          >
-            Calculate
-          </button>
+<div class="container page mt-3">
+  <form [formGroup]="investForm" (ngSubmit)="onSubmit()">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="deposit">Deposit</label>
+        <input type="number"
+               class="form-control"
+               id="deposit"
+               placeholder="Deposit"
+               formControlName="deposit"
+        >
+        <div
+          *ngIf="investForm.controls['deposit'].invalid && (investForm.controls['deposit'].dirty || investForm.controls['deposit'].touched)"
+          class="text-danger">
+          Only numbers are allowed.
         </div>
-    </form>
-  </div>
+      </div>
+      <div class="form-group">
+        <label for="stopLossInPercents">Stoploss in percents</label>
+        <input type="number"
+               class="form-control"
+               id="stopLossInPercents"
+               placeholder="Stoploss in percents"
+               formControlName="stopLossInPercents"
+        >
+        <div
+          *ngIf="investForm.controls['stopLossInPercents'].invalid && (investForm.controls['stopLossInPercents'].dirty || investForm.controls['stopLossInPercents'].touched)"
+          class="text-danger">
+          Only numbers are allowed.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="entryPrice">Entry price</label>
+        <input type="number"
+               class="form-control"
+               id="entryPrice"
+               placeholder="Entry price"
+               formControlName="entryPrice"
+        >
+        <div
+          *ngIf="investForm.controls['entryPrice'].invalid && (investForm.controls['entryPrice'].dirty || investForm.controls['entryPrice'].touched)"
+          class="text-danger">
+          Only numbers are allowed.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="stopLossPrice">Stoploss price</label>
+        <input type="number"
+               class="form-control"
+               id="stopLossPrice"
+               placeholder="Stoploss price"
+               formControlName="stopLossPrice"
+        >
+        <div
+          *ngIf="investForm.controls['stopLossPrice'].invalid && (investForm.controls['stopLossPrice'].dirty || investForm.controls['stopLossPrice'].touched)"
+          class="text-danger">
+          Only numbers are allowed.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="leverage">Leverage</label>
+        <input type="number"
+               class="form-control"
+               id="leverage"
+               placeholder="Leverage"
+               formControlName="leverage"
+        >
+        <div
+          *ngIf="investForm.controls['leverage'].invalid && (investForm.controls['leverage'].dirty || investForm.controls['leverage'].touched)"
+          class="text-danger">
+          Only numbers are allowed.
+        </div>
+      </div>
+      <p class="text-dark font-weight-bold mt-3">Result: {{isNaNValue(moneyInDeal)}}</p>
+      <button
+        class="btn btn-lg btn-primary pull-xs-right w-100"
+        type="submit"
+        [disabled]="investForm.invalid || investForm.pending || hasEmptyFields()"
+      >Calculate
+      </button>
+      <button
+        class="btn btn-lg pull-xs-right mt-3 w-100 btn-transparent btn-border-bottom-dashed text-primary"
+        (click)="resetForm()"
+      >Reset form
+      </button>
+    </div>
+  </form>
+</div>
