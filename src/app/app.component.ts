@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   title = 'Isolated margin';
   investForm!: FormGroup;
   moneyInDeal = 0;
-  pattern = /^(0*[1-9][0-9]*([.][0-9]*)?|[+]?0*[1-9][0-9]*([.][0-9]*)?)$/;
+  pattern = /^[0-9]+(\.[0-9]+)?$/
 
   @HostBinding('class') className = '';
 
