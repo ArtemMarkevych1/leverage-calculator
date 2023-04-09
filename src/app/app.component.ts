@@ -29,13 +29,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.toggleControl.valueChanges.subscribe((darkMode) => {
-      const darkClassName = 'darkMode';
-      this.className = darkMode ? darkClassName : '';
-      if (darkMode){
-        this.overlay.getContainerElement().classList.add(darkClassName);
+    this.toggleControl.valueChanges.subscribe((lightMode) => {
+      const lightClassName = 'lightMode';
+      this.className = lightMode ? lightClassName : '';
+      if (lightMode){
+        this.overlay.getContainerElement().classList.add(lightClassName);
       } else{
-        this.overlay.getContainerElement().classList.remove(darkClassName);
+        this.overlay.getContainerElement().classList.remove(lightClassName);
       }
     });
   }
