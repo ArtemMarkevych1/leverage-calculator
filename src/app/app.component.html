@@ -1,88 +1,113 @@
-<div class="container page mt-4">
-  <form [formGroup]="investForm" (ngSubmit)="onSubmit()">
-    <div class="col-md-4">
-      <div class="form-group">
-        <label for="deposit">Deposit</label>
-        <input type="number"
-               class="form-control"
-               id="deposit"
-               placeholder="Deposit"
-               formControlName="deposit"
-        >
-        <div
-          *ngIf="investForm.controls['deposit'].invalid && (investForm.controls['deposit'].dirty || investForm.controls['deposit'].touched)"
-          class="text-danger">
-          Only numbers are allowed.
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="stopLossInPercents">Stoploss in percents</label>
-        <input type="number"
-               class="form-control"
-               id="stopLossInPercents"
-               placeholder="Stoploss in percents"
-               formControlName="stopLossInPercents"
-        >
-        <div
-          *ngIf="investForm.controls['stopLossInPercents'].invalid && (investForm.controls['stopLossInPercents'].dirty || investForm.controls['stopLossInPercents'].touched)"
-          class="text-danger">
-          Only numbers are allowed.
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="entryPrice">Entry price</label>
-        <input type="number"
-               class="form-control"
-               id="entryPrice"
-               placeholder="Entry price"
-               formControlName="entryPrice"
-        >
-        <div
-          *ngIf="investForm.controls['entryPrice'].invalid && (investForm.controls['entryPrice'].dirty || investForm.controls['entryPrice'].touched)"
-          class="text-danger">
-          Only numbers are allowed.
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="stopLossPrice">Stoploss price</label>
-        <input type="number"
-               class="form-control"
-               id="stopLossPrice"
-               placeholder="Stoploss price"
-               formControlName="stopLossPrice"
-        >
-        <div
-          *ngIf="investForm.controls['stopLossPrice'].invalid && (investForm.controls['stopLossPrice'].dirty || investForm.controls['stopLossPrice'].touched)"
-          class="text-danger">
-          Only numbers are allowed.
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="leverage">Leverage</label>
-        <input type="number"
-               class="form-control"
-               id="leverage"
-               placeholder="Leverage"
-               formControlName="leverage"
-        >
-        <div
-          *ngIf="investForm.controls['leverage'].invalid && (investForm.controls['leverage'].dirty || investForm.controls['leverage'].touched)"
-          class="text-danger">
-          Only numbers are allowed.
-        </div>
-      </div>
-      <p class="text-dark font-weight-bold mt-4 mb-4 result">Result: {{isNaNValue(moneyInDeal)}}</p>
-      <button
-        class="btn btn-lg btn-primary pull-xs-right w-100"
-        type="submit"
-        [disabled]="investForm.invalid || investForm.pending || hasEmptyFields()"
-      >Calculate
-      </button>
-      <button
-        class="btn btn-lg pull-xs-right mt-3 w-100 btn-transparent btn-border-bottom-dashed text-primary"
-        (click)="resetForm()"
-      >Reset form
-      </button>
-    </div>
+<mat-toolbar>
+  {{title}}
+  <div class="flex-stretch"></div>
+  <mat-icon class="mr-8">brightness_5</mat-icon>
+  <mat-slide-toggle [formControl]="toggleControl" class="mr-8">
+  </mat-slide-toggle>
+  <mat-icon>bedtime</mat-icon>
+</mat-toolbar>
+
+<div class="content mat-app-background">
+  <form
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayout.lt-md="column wrap"
+    fxLayoutAlign.lt-md="center start"
+
+    [formGroup]="investForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field>
+      <input
+        matInput
+        id="deposit"
+        type="number"
+        placeholder="Deposit"
+        formControlName="deposit"
+        required [pattern]="pattern"
+      >
+      <mat-error
+        *ngIf="investForm.get('deposit').invalid && (investForm.get('deposit').dirty || investForm.get('deposit').touched)">
+        Only numbers are allowed.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        id="stopLossInPercents"
+        type="number"
+        placeholder="Stoploss in percents"
+        formControlName="stopLossInPercents"
+        required [pattern]="pattern"
+      >
+      <mat-error
+        *ngIf="investForm.get('stopLossInPercents').invalid && (investForm.get('stopLossInPercents').dirty || investForm.get('stopLossInPercents').touched)">
+        Only numbers are allowed.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex.gt-xs="50%">
+      <input
+        matInput
+        id="entryPrice"
+        type="number"
+        placeholder="Entry price"
+        formControlName="entryPrice"
+        required [pattern]="pattern"
+      >
+      <mat-error
+        *ngIf="investForm.get('entryPrice').invalid && (investForm.get('entryPrice').dirty || investForm.get('entryPrice').touched)">
+        Only numbers are allowed.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex.gt-xs="50%">
+      <input
+        matInput
+        id="stopLossPrice"
+        type="number"
+        placeholder="Stoploss price"
+        formControlName="stopLossPrice"
+        required [pattern]="pattern"
+      >
+      <mat-error
+        *ngIf="investForm.get('stopLossPrice').invalid && (investForm.get('stopLossPrice').dirty || investForm.get('stopLossPrice').touched)">
+        Only numbers are allowed.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex.gt-xs="50%">
+      <input
+        matInput
+        id="leverage"
+        type="number"
+        placeholder="Leverage"
+        formControlName="leverage"
+        required [pattern]="pattern"
+      >
+      <mat-error
+        *ngIf="investForm.get('leverage').invalid && (investForm.get('leverage').dirty || investForm.get('leverage').touched)">
+        Only numbers are allowed.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-label fxFlex.gt-xs="100%">Result: {{isNaNValue(moneyInDeal)}}</mat-label>
+
+    <button
+      mat-raised-button
+      color="primary"
+      fxFlex.gt-xs="100%"
+      type="submit" [disabled]="investForm.invalid || hasEmptyFields()"
+    >Calculate
+    </button>
+
+    <button
+      mat-raised-button
+      color="accent"
+      fxFlex.gt-xs="100%"
+      type="submit" [disabled]="investForm.invalid || hasEmptyFields()"
+      (click)="resetForm()"
+    >Reset form
+    </button>
   </form>
 </div>

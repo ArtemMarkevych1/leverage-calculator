@@ -1,3 +1,39 @@
-.btn-border-bottom-dashed {
-  border: 1px solid #007bff;
+mat-toolbar {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background-color: #5c3fa5;
 }
+
+.flex-stretch {
+  flex: 1 0 auto;
+}
+
+.content {
+  padding: 16px;
+  min-height: 100vh;
+}
+
+.mat-form-field {
+  width: 50%;
+  margin: 2em auto;
+  @media screen and (max-width: 1024px) {
+    margin: 1.25em auto;
+    width: 100%;
+  }
+}
+
+button {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  width: 50%;
+
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+  }
+}
+
+//.mat-form-field-label {
+//  margin-top: 10px;
+//  margin-bottom: 10px;
+//}

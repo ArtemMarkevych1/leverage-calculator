@@ -1,33 +1,55 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AppService} from './app.service';
+import {Component, HostBinding, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
+import {OverlayContainer} from '@angular/cdk/overlay';
+import {AppService} from './services/app.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  title = 'Isolated margin';
   investForm!: FormGroup;
-  moneyInDeal: number = 0;
+  moneyInDeal = 0;
+  pattern = /^(0*[1-9][0-9]*([.][0-9]*)?|[+]?0*[1-9][0-9]*([.][0-9]*)?)$/;
 
-  constructor(private fb: FormBuilder, private appService: AppService) {
+  @HostBinding('class') className = '';
+
+  toggleControl = new FormControl(false);
+
+  constructor(
+    private dialog: MatDialog,
+    private overlay: OverlayContainer,
+    private fb: FormBuilder,
+    private appService: AppService,
+  ) {
+    this.initializeForm();
   }
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.toggleControl.valueChanges.subscribe((darkMode) => {
+      const darkClassName = 'darkMode';
+      this.className = darkMode ? darkClassName : '';
+      if (darkMode){
+        this.overlay.getContainerElement().classList.add(darkClassName);
+      } else{
+        this.overlay.getContainerElement().classList.remove(darkClassName);
+      }
+    });
   }
 
   initializeForm(): void {
 
-    const pattern = /[0-9]+([,.][0-9]{1,2})?/;
+    const pattern = /^([+]?[0-9]+([.][0-9]*)?)?$/;
 
-    this.investForm = this.fb.group({
-      deposit: ['', Validators.pattern(pattern)],
-      stopLossInPercents: ['', Validators.pattern(pattern)],
-      entryPrice: ['', Validators.pattern(pattern)],
-      stopLossPrice: ['', Validators.pattern(pattern)],
-      leverage: ['', Validators.pattern(pattern)]
+    this.investForm = new FormGroup({
+      deposit: new FormControl('', Validators.pattern(pattern)),
+      stopLossInPercents: new FormControl('', Validators.pattern(pattern)),
+      entryPrice: new FormControl('', Validators.pattern(pattern)),
+      stopLossPrice: new FormControl('', Validators.pattern(pattern)),
+      leverage: new FormControl('', Validators.pattern(pattern))
     });
   }
 
@@ -51,11 +73,14 @@ export class AppComponent implements OnInit {
     return this.appService.hasEmptyFields(this.investForm.value);
   }
 
-  isNaNValue(number: number): number {
-    return this.appService.isNaNValue(number);
+  isNaNValue(value: number): number {
+    return this.appService.isNaNValue(value);
   }
 
   resetForm() {
     this.investForm.reset();
+    this.moneyInDeal = 0;
+    this.investForm.markAsPristine();
+    this.investForm.markAsUntouched();
   }
 }
